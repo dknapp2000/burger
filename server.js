@@ -2,16 +2,14 @@ const express = require( "express" );
 const parser  = require( "body-parser" );
 const hbars   = require( "express-handlebars" );
 const methOverRide = require( "method-override" );
-const config  = require( "./config/config.js" );
+const config  = require( "./config/config.json" );
 const mysql   = require( "mysql" );
-const sequelize = require( "sequelize" );
-
+const sequelize = require( "./models" );
 const app = express();  // A new express application
 
-const port = process.env.PORT || config.app.port;
+const port = 3000;
 
-console.log( port );
-console.log( config.db.dev );
+console.log( config );
 
 
 app.listen( config.port, () => {
