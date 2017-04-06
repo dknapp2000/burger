@@ -47,7 +47,13 @@ function checkConnect() {
 		}
 		connected = true;
 		console.log( "reconnected as id " + db.threadId );
-	} )
+	} );
+
+	// Refresh the handler
+	db.on( "error", function( err ) {
+		console.log( "Recieved db error" , err );
+		connected = false;
+	});
 }
 
 function selectAll() {
