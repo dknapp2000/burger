@@ -1,11 +1,17 @@
 const mysql      = require( "mysql" );
-const connection = require( "./connection.js" );
+//const connection = require( "./connection.js" );
+
+const path = require( "path" );
+var env       = process.env.NODE_ENV || 'development';
+var connection    = require(__dirname + '/config.json')[env];
+
+console.log( connection );
 
 const db = mysql.createConnection( {
 	"host": connection.host,
-	"user": connection.user,
+	"user": connection.username,
 	"port": connection.port,
-	"password": connection.pass,
+	"password": connection.password,
 	"database": connection.database
 });
 
