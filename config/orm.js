@@ -8,7 +8,7 @@ var connection    = require(__dirname + '/config.json')[env];
 
 console.log( connection );
 
-const db = mysql.createConnection( {
+let db = mysql.createConnection( {
 	"host": connection.host,
 	"user": connection.username,
 	"port": connection.port,
@@ -32,6 +32,14 @@ db.on( "error", function( err ) {
 
 function checkConnect() {
 	if ( connected ) return;
+	
+	db = mysql.createConnection( {
+		"host": connection.host,
+		"user": connection.username,
+		"port": connection.port,
+		"password": connection.password,
+		"database": connection.database
+	});
 	db.connect( (err ) => {
 		if (err) {
 			console.error("Error connecting to the DB: " + err );
