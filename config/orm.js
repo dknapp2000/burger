@@ -8,6 +8,7 @@ var connection    = require(__dirname + '/config.json')[env];
 
 console.log( connection );
 
+// Setting up the initial connection
 let db = mysql.createConnection( {
 	"host": connection.host,
 	"user": connection.username,
@@ -25,11 +26,14 @@ db.connect( (err) => {
 	console.log( "Connected as id " + db.threadId );
 }) 
 
+// Trap connection errors, ClearDB drop the connection after a few minutes of inactivity.
 db.on( "error", function( err ) {
 	console.log( "Recieved db error" , err );
 	connected = false;
 });
 
+// This function checks the connection status (indicated by the connected variable) and is called before all queries to the DB
+// If the db is not connected this will create a new connection before proceding.
 function checkConnect() {
 	if ( connected ) return;
 	
@@ -56,6 +60,7 @@ function checkConnect() {
 	});
 }
 
+// Select all rows for rendering.
 function selectAll() {
 	return new Promise( function( resolve, reject ) {
 		checkConnect();
@@ -69,6 +74,7 @@ function selectAll() {
 	});
 };
 
+// Add a new burger to the database table 
 function insertOne( burger ) {
 	return new Promise( function( resolve, reject ) {
 		checkConnect();
@@ -82,6 +88,7 @@ function insertOne( burger ) {
 	})
 };
 
+// update the burger -- the only column that's updated is the devoured column
 function updateOne( burger ) {
 	return new Promise( function( resolve, reject ) {
 		console.log( burger );

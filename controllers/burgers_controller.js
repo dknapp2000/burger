@@ -10,14 +10,10 @@ const publicPath = path.join( __dirname, "public" );
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// app.use( ( req, res, next ) => {
-//     console.log( req.url );
-//     next();
-// });
-
-
+// Allow static files the be sent.
 app.use(express.static( publicPath ));
 
+// The main url to display the page.
 app.get( "/", function( req, res ) {
     db.selectAll()
     .then( function( burgers ) { 
@@ -26,6 +22,7 @@ app.get( "/", function( req, res ) {
     }); 
 });
 
+// Eat a burger . . .
 app.post( "/api/chomp/:id", function( req, res ) {
     // console.log( "Chomp: ", req.url );
     // console.log( req.params );
@@ -36,6 +33,7 @@ app.post( "/api/chomp/:id", function( req, res ) {
     })
 });
 
+// Add a new burger to the table
 app.post( "/api/add/:name", function( req, res ) {
     console.log( req.params );
     db.insertOne( { "burger_name": req.params.name, "devoured": 0 })
